@@ -15,6 +15,7 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import java.io.FileNotFoundException;
@@ -22,6 +23,8 @@ import java.io.FileNotFoundException;
 public class MainActivity extends AppCompatActivity {
 
     private final static int IMAGE_RESULT_CODE = 1;
+
+    private boolean crop_mode = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,10 +37,21 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent openImage = new Intent();
-                openImage.setType("image/*");
-                openImage.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(openImage, IMAGE_RESULT_CODE);
+
+                if(!crop_mode) {
+                    Intent openImage = new Intent();
+                    openImage.setType("image/*");
+                    openImage.setAction(Intent.ACTION_GET_CONTENT);
+                    startActivityForResult(openImage, IMAGE_RESULT_CODE);
+                } else {
+                    crop_mode = false;
+                    ImageView imageView = (ImageView) findViewById(R.id.imageView);
+                    DropPictureView mDropPictureView = (DropPictureView) findViewById(R.id.mDropPictureView);
+                    mDropPictureView.setVisibility(View.GONE);
+
+                    imageView.setVisibility(View.VISIBLE);
+                    imageView.setImageBitmap(mDropPictureView.getCropBitmap());
+                }
             }
         });
     }
@@ -50,15 +64,21 @@ public class MainActivity extends AppCompatActivity {
             ContentResolver mContentResolver = this.getContentResolver();
             try {
                 DropPictureView mDropPictureView = (DropPictureView) findViewById(R.id.mDropPictureView);
+                ImageView imageView = (ImageView) findViewById(R.id.imageView);
+
                 Bitmap sourceBitmap = BitmapFactory.decodeStream(mContentResolver.openInputStream(mUri));
 
                 int height = (int) ((float) mDropPictureView.getWidth()/sourceBitmap.getWidth() * sourceBitmap.getHeight());
                 RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, height);
                 layoutParams.addRule(Gravity.CENTER);
+
+                imageView.setVisibility(View.GONE);
                 mDropPictureView.setLayoutParams(layoutParams);
                 mDropPictureView.setImageBitmap(sourceBitmap);
+                mDropPictureView.setVisibility(View.VISIBLE);
+                mDropPictureView.resterCropFrame();
 
-                Log.d("hiehgt", String.valueOf(height));
+                crop_mode = true;
             } catch (FileNotFoundException e) {
                 Log.e("Exception", e.getMessage(), e);
             }
@@ -93,19 +113,6 @@ public class MainActivity extends AppCompatActivity {
         return (int) (dp * scale + 0.5f);
     }
 
-    private Bitmap getScreenBitmap(Bitmap src, int width, int height) {
-        Bitmap bitmap = null;
-        float mHeight;
 
-        if(src.getWidth() > src.getHeight()) {
-            mHeight = height;
-            bitmap = Bitmap.createScaledBitmap(src, width, (int) mHeight, true);
-        } else {
-            mHeight = ((float) width / (float) src.getWidth()) * src.getHeight();
-            bitmap = Bitmap.createScaledBitmap(src, width, (int) mHeight, true);
-        }
-
-        return bitmap;
-    }
 
 }

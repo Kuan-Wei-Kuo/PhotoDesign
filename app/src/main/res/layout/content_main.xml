@@ -17,4 +17,10 @@
         android:scaleType="centerCrop"
         android:clickable="true"/>
 
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"/>
+
 </RelativeLayout>
