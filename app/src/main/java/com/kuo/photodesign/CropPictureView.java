@@ -110,10 +110,10 @@ public class CropPictureView extends ImageView {
                     if (event.getX() > right && event.getY() < top && (right - left) <= maxLimitWdith && (bottom - top) <= maxLimitWdith) {
 
                         if((right - left) != maxLimitWdith) {
-                            left = left <= 0 ? 0 : right >= getWidth() ? left - 10 : left - 5;
-                            top = top <= 0 ? 0 : bottom >= getHeight() ? top - 10 : top - 5;
-                            right = right >= getWidth() ? getWidth() : left <= 0 ? right + 10 : right + 5;
-                            bottom = bottom >= getHeight() ? getHeight() : top <= 0 ? bottom + 10 : bottom + 5;
+                            left = left <= 0 ? 0 : right >= getWidth() ? left - 16 : left - 8;
+                            top = top <= 0 ? 0 : bottom >= getHeight() ? top - 16 : top - 8;
+                            right = right >= getWidth() ? getWidth() : left <= 0 ? right + 16 : right + 8;
+                            bottom = bottom >= getHeight() ? getHeight() : top <= 0 ? bottom + 16 : bottom + 8;
                         }
 
                         left = left <= 0 ? 0 : left;
@@ -123,10 +123,10 @@ public class CropPictureView extends ImageView {
 
                         invalidate();
                     } else if(event.getX() < right && event.getY() > top && (right - left) >= (getWidth() / 6)) {
-                        left += 5;
-                        top += 5;
-                        right -= 5;
-                        bottom -= 5;
+                        left += 8;
+                        top += 8;
+                        right -= 8;
+                        bottom -= 8;
                         invalidate();
                     }
                 }
@@ -157,7 +157,6 @@ public class CropPictureView extends ImageView {
 
     public void resterCropFrame() {
         mode = MODE_INIT;
-        invalidate();
     }
 
     public void rotateImage() {
