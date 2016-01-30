@@ -33,6 +33,16 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        FloatingActionButton fabRotate = (FloatingActionButton) findViewById(R.id.fabRotate);
+        fabRotate.setVisibility(View.GONE);
+        fabRotate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CropPictureView mCropPictureView = (CropPictureView) findViewById(R.id.mDropPictureView);
+                mCropPictureView.rotateImage();
+            }
+        });
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,6 +64,9 @@ public class MainActivity extends AppCompatActivity {
 
                     FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
                     fab.setImageResource(R.mipmap.ic_insert_photo_white_48dp);
+
+                    FloatingActionButton fabRotate = (FloatingActionButton) findViewById(R.id.fabRotate);
+                    fabRotate.setVisibility(View.GONE);
                 }
             }
         });
@@ -83,6 +96,9 @@ public class MainActivity extends AppCompatActivity {
 
                 FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
                 fab.setImageResource(R.mipmap.ic_content_cut_white_48dp);
+
+                FloatingActionButton fabRotate = (FloatingActionButton) findViewById(R.id.fabRotate);
+                fabRotate.setVisibility(View.VISIBLE);
 
                 crop_mode = true;
             } catch (FileNotFoundException e) {

@@ -3,12 +3,15 @@ package com.kuo.photodesign;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 /*
  * Created by User on 2016/1/20.
@@ -148,13 +151,27 @@ public class CropPictureView extends ImageView {
         mode = MODE_INIT;
     }
 
+    private Bitmap getScreenBitmap(Bitmap src, int width, int height) {
+        return Bitmap.createScaledBitmap(src, width, height, true);
+    }
+
     public void resterCropFrame() {
         mode = MODE_INIT;
         invalidate();
     }
 
-    private Bitmap getScreenBitmap(Bitmap src, int width, int height) {
-        return Bitmap.createScaledBitmap(src, width, height, true);
+    public void rotateImage() {
+        Matrix matrix = new Matrix();
+        matrix.postRotate(90);
+
+        Bitmap bitmap = ((BitmapDrawable) getDrawable()).getBitmap();
+        Bitmap bmp = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight() , matrix, true);
+
+        int height = (int) ((float) getWidth()/bmp.getWidth() * bmp.getHeight());
+        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, height);
+        layoutParams.addRule(Gravity.CENTER);
+        setLayoutParams(layoutParams);
+        setImageBitmap(bmp);
     }
 
     public Bitmap getCropBitmap() {
