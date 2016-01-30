@@ -7,7 +7,6 @@ import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.widget.ImageView;
 
@@ -26,8 +25,6 @@ public class CropPictureView extends ImageView {
     private int mode;
 
     private float maxLimitWdith;
-
-    private Bitmap srcBitmap;
 
     public CropPictureView(Context context) {
         super(context);
@@ -157,24 +154,11 @@ public class CropPictureView extends ImageView {
     }
 
     private Bitmap getScreenBitmap(Bitmap src, int width, int height) {
-
-        Bitmap bitmap = Bitmap.createScaledBitmap(src, width, height, true);
-
-        Log.d("this.w", "" + getWidth());
-        Log.d("this.h", "" + getHeight());
-        Log.d("process.h", "" + bitmap.getHeight());
-
-        return bitmap;
+        return Bitmap.createScaledBitmap(src, width, height, true);
     }
 
     public Bitmap getCropBitmap() {
         Bitmap bitmap = ((BitmapDrawable) getDrawable()).getBitmap();
-
-        Log.d("Cropleft", "" + (int) left);
-        Log.d("Croptop", "" + (int) top);
-        Log.d("Crop(right - left)", "" + (int) mDropWidth);
-        Log.d("Crop(bottom - top)", "" + (int) mDropWidth);
-
         return Bitmap.createBitmap(getScreenBitmap(bitmap, getWidth(), getHeight()), (int) left, (int) top, (int) mDropWidth, (int) mDropWidth);
     }
 }
