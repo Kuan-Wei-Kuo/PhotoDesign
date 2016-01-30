@@ -14,7 +14,7 @@ import android.widget.ImageView;
 /*
  * Created by User on 2016/1/20.
  */
-public class DropPictureView extends ImageView {
+public class CropPictureView extends ImageView {
 
     private static final int MODE_STOP = -1;
     private static final int MODE_INIT = 0;
@@ -29,13 +29,13 @@ public class DropPictureView extends ImageView {
 
     private Bitmap srcBitmap;
 
-    public DropPictureView(Context context) {
+    public CropPictureView(Context context) {
         super(context);
 
         onCreatePaint();
     }
 
-    public DropPictureView(Context context, AttributeSet attrs) {
+    public CropPictureView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
         onCreatePaint();
